@@ -1,11 +1,10 @@
 import multer from "multer";
-import crypto from "crypto"; // included in node by-default
-import path from "path"; // included in node by-default
+import crypto from "crypto";
+import path from "path";
 
-// DiskStorage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/images/uploads"); // upload location
+    cb(null, "./public/temp");
   },
   filename: function (req, file, cb) {
     crypto.randomBytes(12, function (err, bytes) {
@@ -15,5 +14,4 @@ const storage = multer.diskStorage({
   },
 });
 
-// export upload variable
 export const upload = multer({ storage: storage });
