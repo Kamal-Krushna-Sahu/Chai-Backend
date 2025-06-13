@@ -15,4 +15,10 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })); // to use encode
 app.use(express.static("public"));
 app.use(cookieParser());
 
+// router import
+import userRouter from "./routes/user.routes.js"; // code segregation
+
+// routes declaration
+app.use("/api/v1/users", userRouter); // passes control to userRouter
+
 export { app };
