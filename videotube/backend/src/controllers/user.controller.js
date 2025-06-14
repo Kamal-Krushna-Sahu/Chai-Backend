@@ -57,9 +57,15 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Avatar image is required.");
   }
 
+  // console.log("req.files: ", req.files);
+  // console.log("req.files.avatar: ", req.files.avatar);
+
   // upload images to cloudinary, check if avatar is uploaded or not
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+
+  // console.log("cloudinary avatar: ", avatar);
+  // console.log("cloudinary coverImage: ", coverImage);
 
   if (!avatar) {
     throw new ApiError(400, "Avatar image is required.");
@@ -75,10 +81,15 @@ const registerUser = asyncHandler(async (req, res) => {
     coverImage: coverImage?.url || "",
   });
 
+  // console.log("user: ", user);
+
   // check if User created && remove "password" and "refreshToken" field from response
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken" // remove password and refreshToken field using ".select" // weird syntax:- as it receives multiple fields in one string with spaces in between, without receiving fields as an object.
   );
+
+    // console.log("createdUser: ", createdUser);
+
 
   if (!createdUser) {
     throw new ApiError(500, "something went wrong while registering the user");
